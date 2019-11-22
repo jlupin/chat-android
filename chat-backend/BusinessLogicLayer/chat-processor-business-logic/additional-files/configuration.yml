@@ -1,0 +1,138 @@
+SERVERS:
+  JLRMC: #JLupin Remote Method Calls Fast Protocol:
+    readTimeout: 480000
+    isWaitForFinishExecuteAllRequests: true
+    waitToShutdownThreadsOnStop: 60000
+    backlog: 256
+    receiveBufferSize: 256
+    isReuseAddress: false
+    threadPoolSize: 8
+    isLogPeriodicOnDebug: true
+    isDestroyThreadOnTimeout: false
+    threadExecutingTimeOut: 240000
+    isStartOnMainServerInitialize: true
+  TRANSMISSION:
+    readTimeout: 480000
+    isWaitForFinishExecuteAllRequests: false
+    waitToShutdownThreadsOnStop: 60000
+    backlog: 0
+    receiveBufferSize: 0
+    isReuseAddress: false
+    threadPoolSize: 2
+    isLogPeriodicOnDebug: true
+    isDestroyThreadOnTimeout: false
+    threadExecutingTimeOut: 3600000
+    isStartOnMainServerInitialize: true
+  QUEUE:
+    readTimeout: 480000
+    isWaitForFinishExecuteAllRequests: true
+    waitToShutdownThreadsOnStop: 60000
+    backlog: 256
+    receiveBufferSize: 256
+    isReuseAddress: false
+    threadPoolSize: 8
+    isLogPeriodicOnDebug: true
+    isDestroyThreadOnTimeout: false
+    threadExecutingTimeOut: 240000
+    isStartOnMainServerInitialize: true
+ENTRY_POINTS:
+  QUEUE:
+    isStartOnMainServerInitialize: true
+    threadAmount: 8
+    DELEGATOR_SETTINGS:
+      repeatsAmount: 3
+      timeToWaitBetweenRepeatProbeInMillis: 1000
+    SERVICE_REPOSITORY_SETTINGS:
+      isAlive: true
+      howOftenCheckingMicroservicesInMillis: 5000
+      externalNodePeersStartCheckDelayInMillis: 5000
+      SOCKET_PROPERTIES_TO_CONNECT_WITH_PEERS:
+        connectionTimeoutInMillis: 1000
+        readTimeoutInMillis: 90000
+        isKeepAlive: false
+        isOOBInline: false
+        isTcpNoDelay: false
+        isReuseAddress: false
+        sendBufferSize: 0
+        receiveBufferSize: 0
+        soLinger: 0
+        trafficClass: 0
+    LOAD_BALANCER_SETTINGS:
+      ALGORITHM:
+        type: priority
+      PROPERTIES:
+        changeServerIntervalInMillis: 5000
+        repeatsAmount: 3
+  TRANSMISSION:
+    SERIALIZER:
+      producer: com.jlupin.impl.functional.supplier.serializer.JLupinJAVASerializerSupplierImpl
+    MICROSERVICES_GRANT_ACCESS:
+    #- microserviceName: 'sampleMicroservice'
+    #  serviceName: 'sampleServiceName'
+    #  methodName: 'sampleMethodName'
+    #- microserviceName: 'sampleMicroservice2'
+    #  serviceName: 'sampleServiceName2'
+    #  methodName: 'sampleMethodName2'
+PROPERTIES:
+  platformVersion: '1.6.1.0'
+  #jvmOptions1: '-Xms128M -Xmx256M -Dlog4j.configurationFile=${sys:microservice.dir}/log4j2.xml -agentlib:jdwp=transport=dt_socket,address=12998,server=y,suspend=n'
+  jvmOptions1: '-Xms128M -Xmx256M -Dlog4j.configurationFile=${sys:microservice.dir}/log4j2.xml' #jvmOptions_2 - default the same as jvmOptions_1
+  #jvmOptions2: '-Xms128M -Xmx256M -Dlog4j.configurationFile=${sys:microservice.dir}/log4j2.xml'
+  externalPort: '8000'
+  version: '1.0-SNAPSHOT'
+  switchDelayTime: 0
+  connectionSocketTimeoutInMillis: 1000
+  readTimeoutInMillis: 30000
+  isKeepAlive: false
+  isOOBInline: false
+  isTcpNoDelay: false
+  isReuseAddress: false
+  sendBufferSize: 0
+  receiveBufferSize: 0
+  soLinger: 0
+  trafficClass: 0
+  #javaExecutablePath: 'c:\\jvm\\bin\\java.exe'
+  #additionalClassPath: 'c:\\temp\\*'
+  isStartOnMainServerInitialize: true
+  priorityStartOnMainServerInitialize: 4
+  waitForProcessInitResponseTimeInMillis: 90000
+  waitForProcessStartResponseTimeInMillis: 90000
+  waitForProcessDestroyResponseTimeInMillis: 30000
+  isAllFilesToJVMAppClassLoader: false
+  isArchiveOnStart: false
+  startLogMode: INFO
+  isInitErrorCauseWithNetworkInformation: true
+  isJmxEnabled: true
+  jmxOptions: '-Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false'
+  jmxPrimaryPort: -1
+  jmxSecondaryPort: -1
+  checkAvailableScript: 'function isAvailable(checkResponseTimeInMillis, jrmcActiveThreads, jrmcMaxThreads,
+                                              queueActiveThreads, queueMaxThreads, servletActiveThreads, servletMaxThreads,
+                                              jvmMaxMemoryInBytes, jvmTotalMemoryInBytes, jvmFreeMemoryInBytes,
+                                              jvmProcessCpuLoadInPercentage, userAvailableFlag) {
+                           var isAvailableByUser = Boolean(userAvailableFlag);
+                           if(checkResponseTimeInMillis > 20000 || !isAvailableByUser) {
+                             return false;
+                           }
+                           return true;
+                         }'
+APPLICATION:
+  applicationContainerProducerClassName: 'com.example.chat.configuration.ChatProcessorJLupinConfiguration'
+INITIALIZING_LOGGER:
+  #directoryPath: '/logs/server'
+  #fileName: 'file_name'
+  fileExtension: 'log'
+  fileSizeInMB: 20
+  maxFiles: 10
+MEMORY_ERRORS:
+  isRestartOnError: true
+  howManyTimes: 4
+  percentageGrowth: 15
+  isHeapDump: true
+THREAD_POOLS:
+#THREAD_POOL_1:
+#  size: 8
+#  waitingTimeForTasksCompletionInMillis: 10000
+#THREAD_POOL_2:
+#  size: 8
+#  waitingTimeForTasksCompletionInMillis: 10000
